@@ -1,7 +1,7 @@
 #include "ModbusRtu.h"
 
 // data array for modbus network sharing
-uint16_t au16data[16] = {1, 1, 1, 1, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0 };
+uint16_t modbusBuffer[16] = {1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 int ledPin[4] = {13, 2, 3, 4};
 
 /**
@@ -23,6 +23,6 @@ void setup()
 
 void loop() 
 {
-  slave.poll( au16data, 16 );
-  for (int ii = 0; ii < 4; ++ii) digitalWrite(ledPin[ii], au16data[ii]);
+  slave.poll( modbusBuffer, 16 );
+  for (int ii = 0; ii < 4; ++ii) digitalWrite(ledPin[ii], modbusBuffer[ii]);
 }
