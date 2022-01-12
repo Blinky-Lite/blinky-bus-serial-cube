@@ -1,5 +1,5 @@
 #include "BlinkyBus.h"
-#define BAUD_RATE  9600
+#define BAUD_RATE  19200
 #define commLEDPin    13
 
 #define BLINKYBUSBUFSIZE  4
@@ -14,7 +14,7 @@ union BlinkyBusUnion
   };
   int16_t buffer[BLINKYBUSBUFSIZE];
 } bb;
-BlinkyBus blinkyBus(Serial1, commLEDPin);
+BlinkyBus blinkyBus(bb.buffer, BLINKYBUSBUFSIZE, Serial1, commLEDPin);
 
 int led1Pin = 2;
 int led2Pin = 3;
@@ -47,7 +47,6 @@ void setup()
 
 void loop() 
 {
-  blinkyBus.poll(bb.buffer, BLINKYBUSBUFSIZE);
+  blinkyBus.poll();
   setLeds();
-  delay(50);
 }
