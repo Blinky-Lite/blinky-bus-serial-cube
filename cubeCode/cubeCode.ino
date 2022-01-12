@@ -16,9 +16,9 @@ union BlinkyBusUnion
 } bb;
 BlinkyBus blinkyBus(bb.buffer, BLINKYBUSBUFSIZE, Serial1, commLEDPin);
 
-int led1Pin = 2;
-int led2Pin = 3;
-int led3Pin = 4;
+int led1Pin = 21;
+int led2Pin = 22;
+int led3Pin = 23;
 
 void setLeds()
 {
@@ -37,7 +37,7 @@ void setup()
   bb.state = 1; //init
   bb.led1 = 0;
   bb.led2 = 0;
-  bb.led3 = 0;
+  bb.led3 = 1;
   setLeds();
 
   Serial1.begin(BAUD_RATE);
