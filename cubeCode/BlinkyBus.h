@@ -14,14 +14,14 @@ class BlinkyBus
         int commLEDPin = -1;
         int16_t* regs;
         uint8_t u8size;
-
         void sendBuffer();
 
     public:
         BlinkyBus(int16_t* regs, uint8_t u8size, Stream& port, int commLEDPin);
-        void poll();
+        int poll();
         void start();
-
+        uint8_t getLastWriteAddress();
+        int16_t getLastWriteValue();
 };
 
 BlinkyBus::BlinkyBus(int16_t* regs, uint8_t u8size, Stream& port, int commLEDPin)
@@ -52,33 +52,43 @@ void BlinkyBus::start()
   sendBuffer();
 }
 
-void BlinkyBus::poll()
+int BlinkyBus::poll()
 {
-
-    if(port->available() > 0)
-    { 
-        port->readBytes((uint8_t*)&receiveData, 4);
-        if (receiveData.command == 1)
+  int pollType = 0;
+  if(port->available() > 0)
+  { 
+      pollType = 1; // reading poll type
+      port->readBytes((uint8_t*)&receiveData, 4);
+      if (receiveData.command == 1)
+      {
+        pollType = 2; // setting poll type
+        if ((receiveData.address >= 0) && (receiveData.address < u8size))
         {
-            if ((receiveData.address >= 0) && (receiveData.address < u8size))
-            {
-                regs[receiveData.address] = receiveData.value;
-            }
+            regs[receiveData.address] = receiveData.value;
         }
-        sendBuffer();
-        if (commLEDPin > 1)
-        {
-          commLED = true;
-          digitalWrite(commLEDPin, commLED); 
-          delay(10);   
-          commLED = false;
-          digitalWrite(commLEDPin, commLED);    
-        }
-        
-    }
+      }
+      sendBuffer();
+      if (commLEDPin > 1)
+      {
+        commLED = true;
+        digitalWrite(commLEDPin, commLED); 
+        delay(10);   
+        commLED = false;
+        digitalWrite(commLEDPin, commLED);    
+      }
+  }
+  return pollType;
 }
 void BlinkyBus::sendBuffer()
 {
     port->write((uint8_t*)regs, u8size * 2);
     port->flush();
+}
+uint8_t BlinkyBus::getLastWriteAddress()
+{
+  return receiveData.address;
+}
+int16_t BlinkyBus::getLastWriteValue()
+{
+  return receiveData.value;
 }
