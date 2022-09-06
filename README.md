@@ -49,3 +49,9 @@ The cube communicates with the tray during the blinkyBus.poll() routine. During 
     * The buffer is written with these two bytes at the buffer index specified.
     * The cube sends the entire buffer to the tray
     * and returns a value of 2
+
+After the blinkyBus.poll(), it is possible to determine the last address and value written with the public routines:
+* BlinkyBus::getLastWriteAddress()
+* BlinkyBus::getLastWriteValue()
+
+Once blinkyBus.poll() routine has been completed, the LEDs are set by current state of the buffer.
