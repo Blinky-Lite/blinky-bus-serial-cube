@@ -25,3 +25,27 @@ Open the Arduino programming environment serial monitor before loading the sketc
 Once the HC06-Setup sketch is loaded onto the Teensy-LC, the HC06 Bluetooth module will only communicate at the baud rate defined on line 5 of the HC06-Setup sketch. Any further communication using the HC06-Setup sketch will require to set the baud rate appropriately on line 24.
 
 ## Loading the Code
+The operating code is contained in the cubeCode.ino sketch<br>
+<img src="doc/cubeCode.png"/><br>
+
+The baud rate is set on line 2 and must match the baud rate set in the HC06-Setup sketch. The commLEDPin sets the LED that will blink during communication exchanges between the cube and the tray.
+
+Next in lines 5-16 is a definition of shared memory between a int16_t buffer and the LED states. The first variable must be ***state***.
+* A value of state=1 will signal the tray that the cube has just been initialized.
+* A value of state=0 means that the tray has been communicating with the cube.
+* The following variables are defined by the user to describe the behavior of the cube.
+
+The cube communicates with the tray during the blinkyBus.poll() routine. During the blinkyBus.poll() routine, the cube checks if the tray has sent any data.
+* If the tray has not sent any data, the blinkyBus.poll() routine exits with a return value of zero.
+* If the tray sends data, it must send 4 bytes of data.
+  - The first byte is the write command.
+  - If the write command is 0,
+    * then the tray has no data to give the cube
+    * and the cube sends the entire buffer to the tray
+    * and returns a value of 1
+  - If the write command is 1,
+    * Then the next byte is the index of the buffer array to be written
+    * and the remaining two bytes are the value to be written.
+    * The buffer is written with these two bytes at the buffer index specified.
+    * The cube sends the entire buffer to the tray
+    * and returns a value of 2
