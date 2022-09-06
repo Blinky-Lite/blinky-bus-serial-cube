@@ -1,5 +1,5 @@
 # Blinky Bus Cube
-The blinky-bus cube is a demonstration project on how to use Blinky-Lite with serial Bluetooth communications. The goal of the device is to turn on and off three LEDs.
+Blinky-Bus is a demonstration project on how to use Blinky-Lite with serial Bluetooth to communicate between the cube and tray. The function of the device is to turn on and off three LEDs.
 ## Building the circuit
 The project can be easily built on a breadboard:<br>
 <img src="doc/blinkyBusCube.jpg"/><br>
