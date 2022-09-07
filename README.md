@@ -32,7 +32,7 @@ Once the HC06-Setup sketch is loaded onto the Teensy-LC, the HC06 Bluetooth modu
 
 ## Loading the Code
 The operating code is contained in the cubeCode.ino sketch<br>
-<div style="width:100%;text-align:center;"><img width="50%" src="doc/cubeCode.png"/></div><br>
+<img width="100%" src="doc/cubeCode.png"/><br>
 
 The baud rate is set on line 2 and must match the baud rate set in the HC06-Setup sketch. The commLEDPin sets the LED that will blink during communication exchanges between the cube and the tray.
 
