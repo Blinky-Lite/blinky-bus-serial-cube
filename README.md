@@ -3,7 +3,7 @@
 * Overview
 * [Building the circuit](#building-the-circuit)
 * [Setting up the Bluetooth](#setting-up-the-bluetooth)
-* [Loading the Code](#loading-the-code)
+* [Code Discussion](#code-discussion)
 
 ## Overview
 Blinky-Bus is a demonstration project on how to use Blinky-Lite with serial Bluetooth to communicate between the cube and tray. The function of the device is to turn on and off three LEDs.
@@ -36,7 +36,7 @@ Open the Arduino programming environment serial monitor before loading the sketc
 
 Once the HC06-Setup sketch is loaded onto the Teensy-LC, the HC06 Bluetooth module will only communicate at the baud rate defined on line 5 of the HC06-Setup sketch. Any further communication using the HC06-Setup sketch will require to set the baud rate appropriately on line 24.
 
-## Loading the Code
+## Code Discussion
 The operating code is contained in the cubeCode.ino sketch<br>
 <img width="100%" src="doc/cubeCode.png"/><br>
 
