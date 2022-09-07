@@ -1,10 +1,18 @@
 # Blinky Bus Cube
+## Table of contents
+* Overview
+* [Building the circuit](#building-the-circuit)
+* [Setting up the Bluetooth](#setting-up-the-bluetooth)
+* [Loading the Code](#loading-the-code)
+
+## Overview
 Blinky-Bus is a demonstration project on how to use Blinky-Lite with serial Bluetooth to communicate between the cube and tray. The function of the device is to turn on and off three LEDs.
-## Building the circuit
-The project can be easily built on a breadboard:<br>
+
+You can obtain the source code for the cube by either cloning the repository or downloading a zip file from the green Code button on the [Github page](https://github.com/Blinky-Lite-Exchange/blinky-bus-cube).
 <img src="doc/blinkyBusCube.jpg"/><br>
 
-The components required are:
+## Building the circuit
+The project can be easily built on a breadboard, The components required are:
 * One [Teensy-LC](https://www.pjrc.com/store/teensylc.html)  micro-controller
 * Three LEDs
 * Three 220 Ohm resistors
@@ -16,8 +24,6 @@ Wire the circuit up as shown:<br>
 
 ## Setting up the Bluetooth
 We will use the [Arduino Programming environment](https://www.arduino.cc/en/software) to program the Teensy-LC. In addition to the Arduino programming environment, you will need to install [Teensyduino](https://www.pjrc.com/teensy/teensyduino.html).
-
-You can obtain the source code for the cube by either cloning the repository or downloading a zip file from the green <span style="background:green;color:white;">Code</span> button on the [Github page](https://github.com/Blinky-Lite-Exchange/blinky-bus-cube).
 
 The next step is to set the baud rate, pin code, and name of the HC06 Bluetooth module.
 
