@@ -1,9 +1,11 @@
 #include "BlinkyBus.h"
-#define BAUD_RATE  19200
+#define BAUD_RATE  115200
 #define commLEDPin    13
 #define INCRPERIOD  1000
 
-#define BLINKYBUSBUFSIZE  5
+#define BLINKYBUSBUFSIZE  32
+#define EXTRABUFSIZE      27
+
 union BlinkyBusUnion
 {
   struct
@@ -13,10 +15,13 @@ union BlinkyBusUnion
     int16_t led1;
     int16_t led2;
     int16_t led3;
+    int16_t extra[EXTRABUFSIZE];
   };
   int16_t buffer[BLINKYBUSBUFSIZE];
 } bb;
-BlinkyBus blinkyBus(bb.buffer, BLINKYBUSBUFSIZE, Serial, commLEDPin);
+
+usb_serial_class port = Serial;
+BlinkyBus blinkyBus(bb.buffer, BLINKYBUSBUFSIZE, port, commLEDPin);
 
 const int led1Pin = 2;
 const int led2Pin = 3;
@@ -33,7 +38,7 @@ void setLeds()
 
 void setup() 
 {
-
+  
   pinMode(led1Pin, OUTPUT);
   pinMode(led2Pin, OUTPUT);
   pinMode(led3Pin, OUTPUT);
@@ -45,10 +50,11 @@ void setup()
   bb.led3 = 0;
   setLeds();
 
-  Serial.begin(BAUD_RATE);
+  port.begin(BAUD_RATE);
   blinkyBus.start();
   nowTime = millis();
   lastTime = nowTime;
+  for (int ii = 0; ii < EXTRABUFSIZE; ++ii) bb.extra[ii] = 0;
 }
 
 void loop() 
