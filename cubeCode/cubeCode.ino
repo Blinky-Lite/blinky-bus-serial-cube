@@ -1,24 +1,28 @@
 #include "BlinkyBus.h"
 #define BAUD_RATE  19200
 #define commLEDPin    13
+#define INCRPERIOD  1000
 
-#define BLINKYBUSBUFSIZE  4
+#define BLINKYBUSBUFSIZE  5
 union BlinkyBusUnion
 {
   struct
   {
     int16_t state;
+    int16_t watchdog;
     int16_t led1;
     int16_t led2;
     int16_t led3;
   };
   int16_t buffer[BLINKYBUSBUFSIZE];
 } bb;
-BlinkyBus blinkyBus(bb.buffer, BLINKYBUSBUFSIZE, Serial1, commLEDPin);
+BlinkyBus blinkyBus(bb.buffer, BLINKYBUSBUFSIZE, Serial, commLEDPin);
 
-int led1Pin = 2;
-int led2Pin = 3;
-int led3Pin = 4;
+const int led1Pin = 2;
+const int led2Pin = 3;
+const int led3Pin = 4;
+unsigned long nowTime = 0;
+unsigned long lastTime = 0;
 
 void setLeds()
 {
@@ -35,18 +39,27 @@ void setup()
   pinMode(led3Pin, OUTPUT);
 
   bb.state = 1; //init
+  bb.watchdog = 0;
   bb.led1 = 0;
   bb.led2 = 0;
   bb.led3 = 0;
   setLeds();
 
-  Serial1.begin(BAUD_RATE);
+  Serial.begin(BAUD_RATE);
   blinkyBus.start();
-
+  nowTime = millis();
+  lastTime = nowTime;
 }
 
 void loop() 
 {
   blinkyBus.poll();
   setLeds();
+  nowTime = millis();
+  if (((nowTime - lastTime) > INCRPERIOD) || (nowTime < lastTime))
+  {
+    lastTime = nowTime;
+    bb.watchdog = bb.watchdog + 1;
+    if (bb.watchdog > 32760) bb.watchdog = 0;
+  }
 }
