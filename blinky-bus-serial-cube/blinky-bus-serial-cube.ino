@@ -20,7 +20,8 @@ union BlinkyBusUnion
   int16_t buffer[BLINKYBUSBUFSIZE];
 } bb;
 
-usb_serial_class port = Serial;
+//usb_serial_class port = Serial;
+HardwareSerial port = Serial1;
 BlinkyBus blinkyBus(bb.buffer, BLINKYBUSBUFSIZE, port, commLEDPin);
 
 const int led1Pin = 2;
