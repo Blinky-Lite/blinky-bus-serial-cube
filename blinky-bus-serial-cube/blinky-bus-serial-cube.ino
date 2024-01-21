@@ -1,5 +1,5 @@
 #include "BlinkyBus.h"
-#define BAUD_RATE  115200
+#define BAUD_RATE  9600
 #define commLEDPin    13
 #define INCRPERIOD  1000
 
